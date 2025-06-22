@@ -1,13 +1,14 @@
 name: Publish Package to GitHub NPM Registry
 
 on: 
-  push:
   release: 
     types: published
     
 jobs:
     npm-package:
       runs-on: ubuntu-latest
+      permissions: 
+        packages: write
       steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
@@ -20,3 +21,8 @@ jobs:
 
         - name: install npm dependencies
           run: npm install
+
+        - name: publish package
+          run: npm publish
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
